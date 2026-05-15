@@ -39,7 +39,7 @@ public class McLaurinCosine {
 			factorial *= (2 * i + 1) * (2 * i + 2);// factorial*(2(k-1)+1)*(2 * (k-1) + 2)=factorial*(2k-1)*(2*k)
 
 			powerOfX *= argument * argument;
-			
+
 			sign *= -1;
 		}
 		return macLaurinApproximation;
