@@ -68,7 +68,7 @@ public class NormalRandomVariable extends RandomVariableAbstract {
 	 * Returns the value at p in (0, 0.5] of the approximation of the quantile
 	 * function for a STANDARD normal random variable from Abramowitz and Stegun
 	 * 26.2.23. The formula gives x such that P(X >= x) = p, i.e. P(X <= -x) = p,
-	 * so we return its negation to get the quantile at level p.
+	 * so we return it with the sign flipped to get the quantile at level p.
 	 */
 	private double abramowitzQuantileFunction(double p) {
 		final double c0 = 2.515517;
@@ -104,7 +104,7 @@ public class NormalRandomVariable extends RandomVariableAbstract {
 	 */
 	public double generateAR() {
 		// TODO
-		return 0;
+		return 0.;
 	}
 
 	/**
@@ -115,6 +115,6 @@ public class NormalRandomVariable extends RandomVariableAbstract {
 	 */
 	public double[] generateBivariateAR() {
 		// TODO
-		return new double[] { 0, 0 };
+		return new double[] {0., 0.};
 	}
 }

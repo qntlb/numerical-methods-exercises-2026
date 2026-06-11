@@ -7,7 +7,7 @@ package exercises.session3.randomvariables;
  */
 public class ExponentialRandomVariable extends RandomVariableAbstract {
 
-	private double lambda; // intensity
+	private final double lambda; // intensity
 
 	// there are no public setters: every object will have its own intensity and will be immutable
 	/**

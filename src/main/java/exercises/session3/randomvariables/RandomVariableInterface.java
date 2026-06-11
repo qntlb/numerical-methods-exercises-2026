@@ -1,5 +1,7 @@
 package exercises.session3.randomvariables;
 
+import java.util.function.DoubleUnaryOperator;
+
 /**
  * This interface defines methods for a class representing a
  * random variable with a given distribution.
@@ -87,5 +89,51 @@ public interface RandomVariableInterface {
 	 * @return the quantile function evaluated at x
 	 */
 	double getQuantileFunction(double x); // inf{y | cdf(y) >= x}
+	
+	/**
+	 * It returns the average of a one-dimensional array of specified length n of
+	 * independent realizations of a function of a random variable with given
+	 * distribution. The random variable is represented by the object calling the
+	 * method, and the function by a DoubleUnaryOperator given as an argument.
+	 *
+	 * @param n,        the length of the sample
+	 * @param function, the function to be sampled represented by a
+	 *                  DoubleUnaryOperator
+	 * @return the mean of the sample
+	 *
+	 */
+	double getSampleMean(int n, DoubleUnaryOperator function);
+	
+	/**
+	 * It returns the standard deviation of a one-dimensional array of specified
+	 * length n of independent realizations of a function of a random variable with
+	 * given distribution. The random variable is represented by the object calling
+	 * the method, and the function by a DoubleUnaryOperator given as an argument.
+	 *
+	 * @param n,        the length of the sample
+	 * @param function, the function to be sampled represented by a
+	 *                  DoubleUnaryOperator
+	 * @return the standard deviation of the sample
+	 *
+	 */
+	double getSampleStdDeviation(int n, DoubleUnaryOperator function);
+	
+	
+	/**
+	 * It returns the average of a one-dimensional array of specified length n of
+	 * independent realizations of a function of a random variable with given
+	 * distribution, by weighted Monte-Carlo. The random variable is represented by
+	 * the object calling the method, and the function by a DoubleUnaryOperator
+	 * given as an argument.
+	 *
+	 * @param n,                   the length of the sample
+	 * @param function,            the function to be sampled represented by a
+	 *                             DoubleUnaryOperator
+	 * @param otherRandomVariable, an object of type RandomVariableInterface which is used to
+	 *                             sample
+	 * @return the mean of the sample, calculated by weighted Monte-Carlo
+	 *
+	 */
+	double getSampleMeanWithWeightedMonteCarlo(int n, DoubleUnaryOperator function, RandomVariableInterface otherRandomVariable);
 
 }
