@@ -27,8 +27,8 @@ public abstract class RandomVariableAbstract implements RandomVariableInterface 
 	}
 
 	/*
-	 * This method initializes randomVariableRealizations as a one-dimensional
-	 * array of the given length n, and it fills it by calling generate() n times.
+	 * This method returns a one-dimensional array of the given length n, filled by
+	 * drawings from the random variable obtained calling the method generate().
 	 * It is used to compute the mean and the standard deviation of a sample of
 	 * independent realizations of the random variable.
 	 */
@@ -45,9 +45,7 @@ public abstract class RandomVariableAbstract implements RandomVariableInterface 
 	public double getSampleMean(int n) {
 		/*
 		 * The method might be called more than once, obtaining different results. Every time
-		 * the method is called we call generateValues(n), that is supposed
-		 * to give different values to the one-dimensional array randomVariableRealizations
-		 * at each call.
+		 * the method is called we call generateValues(n).
 		 */
 		return UsefulMethodsMatricesAndVectors.getAverage(generateValues(n));
 	}
@@ -56,22 +54,24 @@ public abstract class RandomVariableAbstract implements RandomVariableInterface 
 	public double getSampleStdDeviation(int n) {
 		/*
 		 * The method might be called more than once, obtaining different results.
-		 * Every time the method is called we call generateValues(n), that is supposed
-		 * to give different values to the one-dimensional array randomVariableRealizations
-		 * at each call.
+		 * Every time the method is called we call generateValues(n).
 		 */
 		return UsefulMethodsMatricesAndVectors.getStandardDeviation(generateValues(n));
 	}
 	
+	
+	/* 
+	 * What follows is needed only for session 5
+	 */
 
 	public double[] generateBivariate() {
 		return new double[] { generate(), generate() };
 	}
 	
 	/*
-	 * This method initializes randomVariableRealizationsFunction as a
-	 * one-dimensional array of the given length n, and it fills it by calling
-	 * generate(DoubleUnaryOperator function) n times. It is used to compute the
+	 * This method returns a one-dimensional array of the given length n, filled with
+	 * evaluations of the function function at randomly drawn points obtained calling the method
+	 * generate(). It is used to compute the
 	 * mean and the standard deviation of a sample of independent realizations of
 	 * the random variable.
 	 */

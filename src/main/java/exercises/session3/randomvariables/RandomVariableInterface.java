@@ -90,6 +90,10 @@ public interface RandomVariableInterface {
 	 */
 	double getQuantileFunction(double x); // inf{y | cdf(y) >= x}
 	
+	/* 
+	 * What follows is needed only for session 5
+	 */
+	
 	/**
 	 * It returns the average of a one-dimensional array of specified length n of
 	 * independent realizations of a function of a random variable with given
