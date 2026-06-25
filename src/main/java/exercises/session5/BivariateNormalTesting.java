@@ -67,19 +67,19 @@ public class BivariateNormalTesting {
 
 		for (int i = 0; i < numberOfComputations; i++) {
 			int numberOfTimesBothSmallerThanMu = 0;
-			final long startTime = System.currentTimeMillis();
+			long startTime = System.currentTimeMillis();
 			for (int j = 0; j < numberOfDrawingsPerComputation; j++) {
 				final double[] generatedPair = methodToGenerateThePair.call();
 				if (generatedPair[0] < mu && generatedPair[1] < mu) {
 					numberOfTimesBothSmallerThanMu++;
 				}
 			}
-			final double frequence = numberOfTimesBothSmallerThanMu / (double) numberOfDrawingsPerComputation;
+			final double frequency = numberOfTimesBothSmallerThanMu / (double) numberOfDrawingsPerComputation;
 			final long endTime = System.currentTimeMillis();
 			final double elapsedTime = endTime - startTime;
-			sumElapsedTime += elapsedTime;
-			final double error = Math.abs(frequence - exactResult) / exactResult * 100;
+			final double error = Math.abs(frequency - exactResult) / exactResult * 100;
 			sumError += error;
+			sumElapsedTime += elapsedTime;
 		}
 
 		double averageElapsedTime = sumElapsedTime / numberOfComputations;
@@ -97,7 +97,7 @@ public class BivariateNormalTesting {
 		final NormalRandomVariable normalTestSampler = new NormalRandomVariable(mu, sigma);
 
 		final int numberOfDrawings = 10000;
-		final int numberOfComputations = 10000;
+		final int numberOfComputations = 1000;
 		final BivariateNormalTesting tester = new BivariateNormalTesting(numberOfDrawings, numberOfComputations);
 
 		for (final GenerationMethods method : GenerationMethods.values()) {

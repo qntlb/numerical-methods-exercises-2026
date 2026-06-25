@@ -24,7 +24,7 @@ public class ImportanceSamplingTesting {
 
 		final NormalRandomVariable standardNormal = new NormalRandomVariable(0.0, 1.0);
 		final NormalRandomVariable shiftedNormal = new NormalRandomVariable(barrier, 1.0);
-		final DoubleUnaryOperator indicatorIntegrand = x -> (x > barrier) ? 1.0 : 0.0;
+		final DoubleUnaryOperator indicatorIntegrand = x -> (x > barrier) ? 1.0 : 0.0; // 1_{X > barrier}
 
 		final double analyticResult = 1 - standardNormal.getCumulativeDistributionFunction(barrier);
 
@@ -71,9 +71,7 @@ public class ImportanceSamplingTesting {
 		final double varianceStandardSampling = standardNormal.getSampleStdDeviation(numberOfDrawings, indicatorIntegrand);
 		System.out.println("Std dev for standard sampling:   " + formatterDouble.format(varianceStandardSampling));
 
-		final DoubleUnaryOperator weight = x -> (standardNormal.getDensityFunction(x) / shiftedNormal.getDensityFunction(x));
-		final DoubleUnaryOperator whatToSample = x -> indicatorIntegrand.applyAsDouble(x) * weight.applyAsDouble(x);
-		final double varianceImportanceSampling = shiftedNormal.getSampleStdDeviation(numberOfDrawings, whatToSample);
+		final double varianceImportanceSampling = standardNormal.getSampleStdWithWeightedMonteCarlo(numberOfDrawings, indicatorIntegrand, shiftedNormal);
 		System.out.println("Std dev for importance sampling: " + formatterDouble.format(varianceImportanceSampling));
 	}
 }

@@ -103,8 +103,20 @@ public class NormalRandomVariable extends RandomVariableAbstract {
 	 * @return a realization of the random variable
 	 */
 	public double generateAR() {
-		// TODO
-		return 0.;
+		double uniformDrawing, exponentialDrawing; // (y,u)
+		ExponentialRandomVariable exponential = new ExponentialRandomVariable(1.0);
+		do {// you do it at least once: example of do..while
+			// generation of uniformDrawing and exponentialDrawing
+			exponentialDrawing = exponential.generate();// realization of exp random variable
+			uniformDrawing = Math.random();// realization of a uniformly distribute random variable in (0,1)
+		}
+		// rejected if u > f(y)/(C*g(y)), C = (2*e/pi)^1/2
+		while (uniformDrawing > Math.exp(-(exponentialDrawing - 1) * (exponentialDrawing - 1) / 2));
+		
+		double absoluteValueStandardNormalDrawing = exponentialDrawing; // |Z|
+		double signOfNormalDrawing = Math.random() < 0.5 ? 1 : -1;
+		double standardNormalDrawing = absoluteValueStandardNormalDrawing * signOfNormalDrawing;
+		return sigma * standardNormalDrawing + mu;// multiply by sigma and add mu
 	}
 
 	/**
@@ -114,7 +126,6 @@ public class NormalRandomVariable extends RandomVariableAbstract {
 	 * @return array of length 2 containing the two realizations
 	 */
 	public double[] generateBivariateAR() {
-		// TODO
-		return new double[] {0., 0.};
+		return new double[] { generateAR(), generateAR() };
 	}
 }

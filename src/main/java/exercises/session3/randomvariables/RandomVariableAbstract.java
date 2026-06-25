@@ -74,7 +74,7 @@ public abstract class RandomVariableAbstract implements RandomVariableInterface 
 	 * generate(). It is used to compute the
 	 * mean and the standard deviation of a sample of independent realizations of
 	 * the random variable.
-	 */
+	 */ //(h(x_i), ..., h(x_n))
 	private double[] generateValues(int n, DoubleUnaryOperator function) {
 		double[] randomVariableRealizationsFunction = new double[n];
 		for (int i = 0; i < n; i++) {
@@ -83,8 +83,7 @@ public abstract class RandomVariableAbstract implements RandomVariableInterface 
 		return randomVariableRealizationsFunction;
 	}
 	
-	
-	@Override
+	@Override // E[h(X)] by Monte Carlo approximation 1/n \sum_{i = 1}^n h(x_i)
 	public double getSampleMean(int n, DoubleUnaryOperator function) {
 		return UsefulMethodsMatricesAndVectors.getAverage(generateValues(n, function));
 	}
@@ -95,10 +94,22 @@ public abstract class RandomVariableAbstract implements RandomVariableInterface 
 				.getStandardDeviation(generateValues(n, function));
 	}
 	
-	@Override
+	@Override // E[h(X)] = E[h(Y) f(Y) / g(Y)] by Monte Carlo
 	public double getSampleMeanWithWeightedMonteCarlo(int n, DoubleUnaryOperator function,
 			RandomVariableInterface otherRandomVariable) {
-		// TODO
-		return 0.;
+		DoubleUnaryOperator weight = x -> (getDensityFunction(x)// the one of the "original" random variable
+				/ otherRandomVariable.getDensityFunction(x));
+		// the new integrand is the function h*f/g
+		DoubleUnaryOperator integrand = (x -> function.applyAsDouble(x) * weight.applyAsDouble(x));
+		return otherRandomVariable.getSampleMean(n, integrand);
+	}
+	
+	@Override
+	public double getSampleStdWithWeightedMonteCarlo(int n, DoubleUnaryOperator function,
+			RandomVariableInterface otherRandomVariable) {
+		DoubleUnaryOperator weight = x -> (getDensityFunction(x)// the one of the "original" random variable
+				/ otherRandomVariable.getDensityFunction(x));
+		DoubleUnaryOperator integrand = (x -> function.applyAsDouble(x) * weight.applyAsDouble(x));
+		return otherRandomVariable.getSampleStdDeviation(n, integrand);
 	}
 }
